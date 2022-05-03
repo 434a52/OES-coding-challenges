@@ -11,7 +11,7 @@ namespace OES.RobotWars
     {
       var services = new ServiceCollection()
         .AddSingleton<IArena, Arena>()
-        .AddSingleton<IRobotMoveValidationService, RobotMoveValidationService>()
+        .AddSingleton<IArenaValidationService, ArenaValidationService>()
         .AddSingleton<ITextInputParserService, TextInputParserService>()
         .AddSingleton<IRobotWarsService, RobotWarsService>();
 

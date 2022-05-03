@@ -5,7 +5,7 @@ namespace OES.RobotWars.Interfaces
 {
   public interface ITextInputParserService
   {
-    Coordinate? ParseArenaDimension(string? input);
+    Coordinate ParseArenaDimension(string? input);
     (Coordinate, Orientation) ParseRobotInitialPosition(string? input);
     IEnumerable<RobotInstruction> ParseRobotInstructions(string? input);
   }

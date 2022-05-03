@@ -37,9 +37,7 @@ if (robotWarsService is null) {
           } else {
             Console.WriteLine($"Please provide instructions for robot {i + 1} [{defaultRobotInstructions}]");
             var instructions = inputParser.ParseRobotInstructions(ReadLineWithDefault(defaultRobotInstructions));
-            foreach (var instruction in instructions) {
-              robotWarsService.InstructRobot(robot, instruction);
-            }
+            robotWarsService.InstructRobot(robot, instructions);
           }
         }
         Console.WriteLine("Robots are currently at the following positions;");

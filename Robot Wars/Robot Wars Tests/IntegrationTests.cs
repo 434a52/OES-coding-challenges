@@ -11,19 +11,6 @@ namespace OES.RobotWars.Tests
   public class IntegrationTests
   {
 
-    /* INPUT
-    5 5
-    1 2 N
-    LMLMLMLMM
-    3 3 E
-    MMRMMRMRRM 
-    */
-
-    /* OUTPUT
-    1 3 N
-    5 1 E
-    */
-
     [TestMethod]
     public void TestRobotWarsServiceWithInputParsing()
     {
@@ -44,8 +31,9 @@ namespace OES.RobotWars.Tests
             var robot2Instructions = inputParser.ParseRobotInstructions("MMRMMRMRRM");
             var robot1 = robotWarsService.CreateRobot(robot1Coordinate, robot1Orientation);
             var robot2 = robotWarsService.CreateRobot(robot2Coordinate, robot2Orientation);
-            robot1Instructions.ToList().ForEach(instruction => robotWarsService.InstructRobot(robot1, instruction));
-            robot2Instructions.ToList().ForEach(instruction => robotWarsService.InstructRobot(robot2, instruction));
+            robotWarsService.InstructRobot(robot1, robot1Instructions);
+            robotWarsService.InstructRobot(robot2, robot2Instructions);
+
             Assert.IsTrue(robot1.Position.X == 1, $"Robot1.Position.X; expected 1, actual {robot1.Position.X}");
             Assert.IsTrue(robot1.Position.Y == 3, $"Robot1.Position.Y; expected 3, actual {robot1.Position.Y}");
             Assert.IsTrue(robot1.Orientation == Orientation.North, $"Robot1.Orientation; expected North, actual {robot1.Orientation}");
@@ -93,8 +81,9 @@ namespace OES.RobotWars.Tests
           RobotInstruction.Move
         };
         try {
-          robot1Instructions.ForEach(instruction => robotWarsService.InstructRobot(robot1, instruction));
-          robot2Instructions.ForEach(instruction => robotWarsService.InstructRobot(robot2, instruction));
+          robotWarsService.InstructRobot(robot1, robot1Instructions);
+          robotWarsService.InstructRobot(robot2, robot2Instructions);
+
           Assert.IsTrue(robot1.Position.X == 1, $"Robot1.Position.X; expected 1, actual {robot1.Position.X}");
           Assert.IsTrue(robot1.Position.Y == 3, $"Robot1.Position.Y; expected 3, actual {robot1.Position.Y}");
           Assert.IsTrue(robot1.Orientation == Orientation.North, $"Robot1.Orientation; expected North, actual {robot1.Orientation}");

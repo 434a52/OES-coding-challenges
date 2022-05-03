@@ -16,6 +16,19 @@ namespace OES.RobotWars.Models
       Orientation = orientation;
     }
 
+    public void Do(IEnumerable<RobotInstruction> instructions)
+    {
+      foreach (var instruction in instructions) {
+        if (instruction is RobotInstruction.RotateLeft) {
+          RotateLeft();
+        } else if (instruction is RobotInstruction.RotateRight) {
+          RotateRight();
+        } else if (instruction is RobotInstruction.Move) {
+          Move();
+        }
+      }
+    }
+
     public void RotateLeft()
     {
       if (Orientation is Orientation.North) {

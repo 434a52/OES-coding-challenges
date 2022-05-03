@@ -6,15 +6,15 @@ namespace OES.RobotWars.Services
 {
   public sealed class RobotWarsService : IRobotWarsService
   {
-    private const string ArenaNotInitialised = "Arena has not been initialised";
+
     private readonly IArena _arena;
-    private readonly IRobotMoveValidationService _robotMoveValidationService;
+    private readonly IArenaValidationService _arenaValidationService;
     private readonly ITextInputParserService _textInputParserService;
 
-    public RobotWarsService(IArena arena, IRobotMoveValidationService robotMoveValidationService, ITextInputParserService textInputParserService)
+    public RobotWarsService(IArena arena, IArenaValidationService arenaValidationService, ITextInputParserService textInputParserService)
     {
       _arena = arena;
-      _robotMoveValidationService = robotMoveValidationService;
+      _arenaValidationService = arenaValidationService;
       _textInputParserService = textInputParserService;
     }
 
@@ -25,28 +25,35 @@ namespace OES.RobotWars.Services
 
     public IRobot CreateRobot(Coordinate coordinate, Orientation orientation)
     {
-      if (_arena is not null) {
-        var robot = new Robot(coordinate, orientation);
+      var robot = new Robot(coordinate, orientation);
+      if (!_arenaValidationService.IsRobotWithinArenaBoundaries(_arena, robot)) {
+        throw new InvalidOperationException("Unable to create robot outside of arena boundaries");
+      } else if (!_arenaValidationService.IsArenaCoordinateEmpty(_arena, coordinate)) {
+        throw new InvalidOperationException("Unable to create the robot, the coordinate is not available");
+      } else {
         _arena.AddRobot(robot);
         return robot;
-      } else {
-        throw new NullReferenceException(ArenaNotInitialised);
+      }
+    }
+
+    public void InstructRobot(IRobot robot, IEnumerable<RobotInstruction> instructions)
+    {
+      foreach (var instruction in instructions) {
+        InstructRobot(robot, instruction);
       }
     }
 
     public void InstructRobot(IRobot robot, RobotInstruction instruction)
     {
-      if (_arena is null) {
-        throw new NullReferenceException(ArenaNotInitialised);
-      } else if (instruction is RobotInstruction.RotateLeft) {
+      if (instruction is RobotInstruction.RotateLeft) {
         robot.RotateLeft();
       } else if (instruction is RobotInstruction.RotateRight) {
         robot.RotateRight();
       } else if (instruction is RobotInstruction.Move) {
-        if (!_robotMoveValidationService.IsMoveWithinArenaBoundaries(_arena, robot)) {
-          throw new InvalidOperationException("Unable to move to robot outside arena boundaries");
-        } else if (!_robotMoveValidationService.IsMoveToEmptyCoordinate(_arena, robot)) {
-          throw new InvalidOperationException("Unable to move to robot to occupied coordinates");
+        if (!_arenaValidationService.IsMoveWithinArenaBoundaries(_arena, robot)) {
+          throw new InvalidOperationException("Unable to move the robot outside arena boundaries");
+        } else if (!_arenaValidationService.IsMoveToEmptyCoordinate(_arena, robot)) {
+          throw new InvalidOperationException("Unable to move the robot, the coordinate is not available");
         } else {
           robot.Move();
         }
@@ -55,16 +62,13 @@ namespace OES.RobotWars.Services
 
     public IEnumerable<IRobot> GetRobots()
     {
-      if (_arena is not null) {
-        return _arena.Robots;
-      } else {
-        throw new NullReferenceException(ArenaNotInitialised);
-      }
+      return _arena.Robots;
     }
 
     public ITextInputParserService GetTextInputParserService()
     {
       return _textInputParserService;
     }
+
   }
 }

@@ -46,15 +46,15 @@ namespace OES.RobotWars.Tests
       arena.AddRobot(robot1);
       arena.AddRobot(robot2);
 
-      var validator = new RobotMoveValidationService();
+      var validator = new ArenaValidationService();
       Assert.IsFalse(validator.IsMoveToEmptyCoordinate(arena, robot1));
     }
 
-    static private (Arena, Robot, RobotMoveValidationService) CreateTestSubjects(Coordinate initialRobotPosition, Orientation initialRobotOrientation)
+    static private (Arena, Robot, ArenaValidationService) CreateTestSubjects(Coordinate initialRobotPosition, Orientation initialRobotOrientation)
     {
       var arena = new Arena();
       var robot = new Robot(initialRobotPosition, initialRobotOrientation);
-      var validator = new RobotMoveValidationService();
+      var validator = new ArenaValidationService();
       arena.SetBoundaries(new Coordinate(0, 0), new Coordinate(5, 5));
       return (arena, robot, validator);
     }

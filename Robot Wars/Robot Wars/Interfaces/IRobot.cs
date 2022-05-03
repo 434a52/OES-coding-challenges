@@ -9,6 +9,7 @@ namespace OES.RobotWars.Interfaces
     Coordinate Position { get; set; }
     Orientation Orientation { get; set; }
 
+    void Do(IEnumerable<RobotInstruction> instructions);
     void RotateLeft();
     void RotateRight();
     void Move();
