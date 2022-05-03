@@ -11,24 +11,11 @@ namespace OES.RobotWars.Tests
   public class TextInputParserTests
   {
 
-    /* INPUT
-    5 5
-    1 2 N
-    LMLMLMLMM
-    3 3 E
-    MMRMMRMRRM 
-    */
-
-    /* OUTPUT
-    1 3 N
-    5 1 E
-    */
-
     [TestMethod]
     public void TestParseArenaDimension()
     {
       var parser = new TextInputParserService();
-      var coord = parser.ParseArenaDimension("5 5");
+      var coord = parser.ParseArenaDimension(Specification.Input.ArenaBoundaryString);
       Assert.AreEqual(new Coordinate(5, 5), coord);
     }
 
@@ -44,7 +31,7 @@ namespace OES.RobotWars.Tests
     public void TestParseRobot1InitialPosition()
     {
       var parser = new TextInputParserService();
-      (Coordinate coordinate, Orientation orientation) = parser.ParseRobotInitialPosition("1 2 N");
+      (Coordinate coordinate, Orientation orientation) = parser.ParseRobotInitialPosition(Specification.Input.Robot1InitialPositionString);
       Assert.AreEqual(new Coordinate(1, 2), coordinate);
       Assert.AreEqual(Orientation.North, orientation);
     }
@@ -53,7 +40,7 @@ namespace OES.RobotWars.Tests
     public void TestParseRobot2InitialPosition()
     {
       var parser = new TextInputParserService();
-      (Coordinate coordinate, Orientation orientation) = parser.ParseRobotInitialPosition("3 3 E");
+      (Coordinate coordinate, Orientation orientation) = parser.ParseRobotInitialPosition(Specification.Input.Robot2InitialPositionString);
       Assert.AreEqual(new Coordinate(3, 3), coordinate);
       Assert.AreEqual(Orientation.East, orientation);
     }
