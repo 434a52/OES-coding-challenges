@@ -6,33 +6,16 @@ using OES.RobotWars.Services;
 namespace OES.RobotWars.Tests
 {
   [TestClass]
-  public class RobotMoveValidationTests
+  public class ArenaTests
   {
-    [TestMethod]
-    public void TestArenaLeftBoundary()
+    [DataTestMethod]
+    [DataRow(0, 0, 3, DisplayName = "Test Arena Left Boundary")]
+    [DataRow(0, 0, 2, DisplayName = "Test Arena Bottom Boundary")]
+    [DataRow(5, 5, 0, DisplayName = "Test Arena Right Boundary")]
+    [DataRow(5, 5, 1, DisplayName = "Test Arena Top Boundary")]
+    public void TestArenaBoundaries(int x, int y, int orientation)
     {
-      (var arena, var robot, var validator) = CreateTestSubjects(new Coordinate(0, 0), Orientation.West);
-      Assert.IsFalse(validator.IsMoveWithinArenaBoundaries(arena, robot));
-    }
-
-    [TestMethod]
-    public void TestArenaBottomBoundary()
-    {
-      (var arena, var robot, var validator) = CreateTestSubjects(new Coordinate(0, 0), Orientation.South);
-      Assert.IsFalse(validator.IsMoveWithinArenaBoundaries(arena, robot));
-    }
-
-    [TestMethod]
-    public void TestArenaRightBoundary()
-    {
-      (var arena, var robot, var validator) = CreateTestSubjects(new Coordinate(5, 5), Orientation.North);
-      Assert.IsFalse(validator.IsMoveWithinArenaBoundaries(arena, robot));
-    }
-
-    [TestMethod]
-    public void TestArenaTopBoundary()
-    {
-      (var arena, var robot, var validator) = CreateTestSubjects(new Coordinate(5, 5), Orientation.East);
+      (var arena, var robot, var validator) = CreateTestSubjects(new Coordinate(x, y), (Orientation)orientation);
       Assert.IsFalse(validator.IsMoveWithinArenaBoundaries(arena, robot));
     }
 

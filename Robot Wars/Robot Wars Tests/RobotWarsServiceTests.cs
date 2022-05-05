@@ -4,12 +4,12 @@ using OES.RobotWars.Interfaces;
 using OES.RobotWars.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using static OES.RobotWars.Tests.Specification;
 
 namespace OES.RobotWars.Tests
 {
   [TestClass]
-  public class IntegrationTests
+  public class RobotWarsServiceTests
   {
 
     [TestMethod]
@@ -21,11 +21,11 @@ namespace OES.RobotWars.Tests
       } else {
         var inputParser = robotWarsService.GetTextInputParserService();
         try {
-          var arenaBoundary1 = inputParser.ParseArenaDimension(Specification.Input.ArenaBoundaryString);
-          (Coordinate robot1InitialPosition, Orientation robot1InitialOrientation) = inputParser.ParseRobotInitialPosition(Specification.Input.Robot1InitialPositionString);
-          var robot1Instructions = inputParser.ParseRobotInstructions(Specification.Input.Robot1InstructionsString);
-          (Coordinate robot2InitialPosition, Orientation robot2InitialOrientation) = inputParser.ParseRobotInitialPosition(Specification.Input.Robot2InitialPositionString);
-          var robot2Instructions = inputParser.ParseRobotInstructions(Specification.Input.Robot2InstructionsString);
+          var arenaBoundary1 = inputParser.ParseArenaDimension(Input.ArenaBoundaryString);
+          (Coordinate robot1InitialPosition, Orientation robot1InitialOrientation) = inputParser.ParseRobotInitialPosition(Input.Robot1InitialPositionString);
+          var robot1Instructions = inputParser.ParseRobotInstructions(Input.Robot1InstructionsString);
+          (Coordinate robot2InitialPosition, Orientation robot2InitialOrientation) = inputParser.ParseRobotInitialPosition(Input.Robot2InitialPositionString);
+          var robot2Instructions = inputParser.ParseRobotInstructions(Input.Robot2InstructionsString);
 
           (IRobot robot1, IRobot robot2) = TestRobotWarsService(
             robotWarsService,
@@ -41,8 +41,8 @@ namespace OES.RobotWars.Tests
           TestRobot1FinalPosition(robot1);
           TestRobot2FinalPosition(robot2);
 
-          Assert.IsTrue(robot1.ToString() == Specification.Output.Robot1FinalPositionString);
-          Assert.IsTrue(robot2.ToString() == Specification.Output.Robot2FinalPositionString);
+          Assert.IsTrue(robot1.ToString() == Output.Robot1FinalPositionString);
+          Assert.IsTrue(robot2.ToString() == Output.Robot2FinalPositionString);
         } catch (Exception exception) {
           Assert.Fail(exception.Message);
         }
@@ -59,13 +59,13 @@ namespace OES.RobotWars.Tests
         try {
           (IRobot robot1, IRobot robot2) = TestRobotWarsService(
             robotWarsService,
-            Specification.Input.ArenaBoundary,
-            Specification.Input.Robot1InitialPosition, 
-            Specification.Input.Robot1InitialOrientation,
-            Specification.Input.Robot2InitialPosition, 
-            Specification.Input.Robot2InitialOrientation,
-            Specification.Input.Robot1Instructions,
-            Specification.Input.Robot2Instructions
+            Input.ArenaBoundary,
+            Input.Robot1InitialPosition, 
+            Input.Robot1InitialOrientation,
+            Input.Robot2InitialPosition, 
+            Input.Robot2InitialOrientation,
+            Input.Robot1Instructions,
+            Input.Robot2Instructions
           );
 
           TestRobot1FinalPosition(robot1);
@@ -96,14 +96,14 @@ namespace OES.RobotWars.Tests
 
     static private void TestRobot1FinalPosition(IRobot robot1)
     {
-      Assert.IsTrue(robot1.Position == Specification.Output.Robot1FinalPosition, $"Robot1 final position; expected {Specification.Output.Robot1FinalPosition}, actual {robot1.Position}");
-      Assert.IsTrue(robot1.Orientation == Specification.Output.Robot1FinalOrientation, $"Robot1 final orientation; expected {Specification.Output.Robot1FinalOrientation}, actual {robot1.Orientation}");
+      Assert.IsTrue(robot1.Position == Output.Robot1FinalPosition, $"Robot1 final position; expected {Output.Robot1FinalPosition}, actual {robot1.Position}");
+      Assert.IsTrue(robot1.Orientation == Output.Robot1FinalOrientation, $"Robot1 final orientation; expected {Output.Robot1FinalOrientation}, actual {robot1.Orientation}");
     }
 
     static private void TestRobot2FinalPosition(IRobot robot2)
     {
-      Assert.IsTrue(robot2.Position == Specification.Output.Robot2FinalPosition, $"Robot2 final position; expected {Specification.Output.Robot2FinalPosition}, actual {robot2.Position}");
-      Assert.IsTrue(robot2.Orientation == Specification.Output.Robot2FinalOrientation, $"Robot2 final orientation; expected {Specification.Output.Robot2FinalOrientation}, actual {robot2.Orientation}");
+      Assert.IsTrue(robot2.Position == Output.Robot2FinalPosition, $"Robot2 final position; expected {Output.Robot2FinalPosition}, actual {robot2.Position}");
+      Assert.IsTrue(robot2.Orientation == Output.Robot2FinalOrientation, $"Robot2 final orientation; expected {Output.Robot2FinalOrientation}, actual {robot2.Orientation}");
     }
 
   }

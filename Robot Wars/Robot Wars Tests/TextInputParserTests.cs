@@ -4,6 +4,7 @@ using OES.RobotWars.Models;
 using OES.RobotWars.Services;
 using System.Collections.Generic;
 using System.Linq;
+using static OES.RobotWars.Tests.Specification;
 
 namespace OES.RobotWars.Tests
 {
@@ -15,15 +16,19 @@ namespace OES.RobotWars.Tests
     public void TestParseArenaDimension()
     {
       var parser = new TextInputParserService();
-      var coord = parser.ParseArenaDimension(Specification.Input.ArenaBoundaryString);
-      Assert.AreEqual(new Coordinate(5, 5), coord);
+      var coord = parser.ParseArenaDimension(Input.ArenaBoundaryString);
+      Assert.AreEqual(Input.ArenaBoundary, coord);
     }
 
-    [TestMethod]
-    public void TestParseArenaDimensionWithExtraSpaces()
+    [DataTestMethod]
+    [DataRow("5 5")]
+    [DataRow("5   5")]
+    [DataRow(" 5 5 ")]
+    [DataRow("  5   5  ")]
+    public void TestParseArenaDimensionWithExtraSpaces(string input)
     {
       var parser = new TextInputParserService();
-      var coord = parser.ParseArenaDimension(" 5   5 ");
+      var coord = parser.ParseArenaDimension(input);
       Assert.AreEqual(new Coordinate(5, 5), coord);
     }
 
@@ -31,18 +36,18 @@ namespace OES.RobotWars.Tests
     public void TestParseRobot1InitialPosition()
     {
       var parser = new TextInputParserService();
-      (Coordinate coordinate, Orientation orientation) = parser.ParseRobotInitialPosition(Specification.Input.Robot1InitialPositionString);
-      Assert.AreEqual(new Coordinate(1, 2), coordinate);
-      Assert.AreEqual(Orientation.North, orientation);
+      (Coordinate coordinate, Orientation orientation) = parser.ParseRobotInitialPosition(Input.Robot1InitialPositionString);
+      Assert.AreEqual(Input.Robot1InitialPosition, coordinate);
+      Assert.AreEqual(Input.Robot1InitialOrientation, orientation);
     }
 
     [TestMethod]
     public void TestParseRobot2InitialPosition()
     {
       var parser = new TextInputParserService();
-      (Coordinate coordinate, Orientation orientation) = parser.ParseRobotInitialPosition(Specification.Input.Robot2InitialPositionString);
-      Assert.AreEqual(new Coordinate(3, 3), coordinate);
-      Assert.AreEqual(Orientation.East, orientation);
+      (Coordinate coordinate, Orientation orientation) = parser.ParseRobotInitialPosition(Input.Robot2InitialPositionString);
+      Assert.AreEqual(Input.Robot2InitialPosition, coordinate);
+      Assert.AreEqual(Input.Robot2InitialOrientation, orientation);
     }
 
     [TestMethod]

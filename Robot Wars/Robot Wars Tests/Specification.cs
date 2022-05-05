@@ -4,10 +4,10 @@ using System.Collections.Generic;
 
 namespace OES.RobotWars.Tests
 {
-  internal class Specification
+  static internal class Specification
   {
 
-    internal class Input
+    static internal class Input
     {
       static public string ArenaBoundaryString = "5 5";
       static public string Robot1InitialPositionString = "1 2 N";
@@ -45,7 +45,7 @@ namespace OES.RobotWars.Tests
       };
     }
 
-    public class Output
+    static internal class Output
     {
       static public string Robot1FinalPositionString = "1 3 N";
       static public string Robot2FinalPositionString = "5 1 E";
